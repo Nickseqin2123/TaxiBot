@@ -30,7 +30,8 @@ async def start_menu(message: Message, state: FSMContext):
     )):
         await message.answer(
             text='''Рад приветствовать тебя снова.С тарифами можно ознакомится по команде /tarifs.
-Для помощи с заказом можно воспользоваться командой /help'''
+Для помощи с заказом можно воспользоваться командой /help''',
+reply_markup=await menu()
         )
     else:
         await state.set_state(GetPhone.phone_number)

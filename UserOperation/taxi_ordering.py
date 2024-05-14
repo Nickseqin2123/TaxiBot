@@ -1,9 +1,10 @@
 from aiogram import Router, F
-from aiogram.types import Message
-from Keyboards.keyboards import menu, geo_keyb, only_go_menu
+from aiogram.types import Message, CallbackQuery
+from Keyboards.keyboards import menu, geo_keyb, only_go_menu, get_inline_keyb
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from SqlReq.SqlRequests import database
+from UserOperation.get_km import ge
 
 
 router = Router(name=__name__)
@@ -68,12 +69,13 @@ async def summary(message: Message, data: dict):
     pointA = data['locationa']
     pointB = data['locationb']
     
+    await message.answer(
+        text="Идет расчет стоймости"
+    )
+    
+    resp = await ge(pointA, pointB)
+
     
     await message.answer(
-        text=f"""Широта точки A -> {pointA.latitude}
-Долгота точки A -> {pointA.longitude}
-
-Широта точки B -> {pointB.latitude}
-Долгота точки B -> {pointB.longitude}
-""", reply_markup=await menu()
+        text=f"{resp}", reply_markup=await get_inline_keyb()
     )

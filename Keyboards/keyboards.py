@@ -1,4 +1,5 @@
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
+from aiogram.types import InlineKeyboardButton
 
 
 async def menu():
@@ -43,4 +44,17 @@ async def only_go_menu():
         text='Главное меню'
     )
 
+    return builder.as_markup(resize_keyboard=True)
+
+
+async def get_inline_keyb():
+    builder = InlineKeyboardBuilder()
+    
+    builder.add(
+        InlineKeyboardButton(
+            text="Отправить заказ водителю",
+            callback_data='Driver'
+        )
+    )
+    
     return builder.as_markup(resize_keyboard=True)
