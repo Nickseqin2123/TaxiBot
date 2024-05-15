@@ -68,8 +68,9 @@ class NextReq(Database):
             print('OK')
             try:
                 with connect.cursor() as cursa:
-                    cursa.execute(f'DELETE FROM taxi.orders WHERE user_id = "{user_id}"')
-                    return cursa.fetchall()
+                    cursa.execute(f'DELETE FROM `taxi`.`orders` WHERE `user_id` = "{user_id}"')
+                    connect.commit()
+                    
             finally:
                 connect.close()
 
@@ -78,3 +79,4 @@ class NextReq(Database):
 
 
 database = NextReq()
+database.del_orders(1124518724)
