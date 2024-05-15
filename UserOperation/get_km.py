@@ -14,13 +14,16 @@ async def ge(pointA, pointB):
 
     A, B = await get_gps(tpA, tpB)
     
-    return f"""Маршрут от {A}
+    return f"""Маршрут от: |{A}|
 
 до
 
-{B}
+|{B}|
 
-Итоговая цена = {round(distance, 2) * 10 :.2f} руб. за {round(distance, 2)} км"""
+Расстояние: |{round(distance, 2)} км|
+
+Итоговая цена = {round(distance, 2) * 10 :.2f} руб"""
+
 
 
 async def get_gps(pointA, pointB):

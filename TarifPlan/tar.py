@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.filters.command import Command
 from aiogram.types import Message
-from SqlReq.SqlRequests import database
+from SqlReq.SecondRequests import database
 
 
 router = Router(name=__name__)

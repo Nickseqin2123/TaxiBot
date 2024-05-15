@@ -53,7 +53,33 @@ async def get_inline_keyb():
     builder.add(
         InlineKeyboardButton(
             text="Отправить заказ водителю",
-            callback_data='Driver'
+            callback_data=f'Driver'
+        )
+    )
+    
+    return builder.as_markup(resize_keyboard=True)
+
+
+async def for_driver():
+    builder = InlineKeyboardBuilder()
+    
+    builder.add(
+        InlineKeyboardButton(
+            text="Принять заказ",
+            callback_data='Apply'
+        )
+    )
+    
+    return builder.as_markup(resize_keyboard=True)
+
+
+async def cancel_order():
+    builder = InlineKeyboardBuilder()
+    
+    builder.add(
+        InlineKeyboardButton(
+            text="Отменить заказ",
+            callback_data=f'Cancel'
         )
     )
     

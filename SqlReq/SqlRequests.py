@@ -105,6 +105,3 @@ class Database:
 
         except Exception as er:
             print(er)
-
-
-database = Database()
