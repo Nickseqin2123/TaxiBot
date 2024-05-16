@@ -84,3 +84,16 @@ async def cancel_order():
     )
     
     return builder.as_markup(resize_keyboard=True)
+
+
+async def cancel_order_in_driver():
+    builder = InlineKeyboardBuilder()
+    
+    builder.add(
+        InlineKeyboardButton(
+            text="Не поеду",
+            callback_data=f'Canceldriver'
+        )
+    )
+    
+    return builder.as_markup(resize_keyboard=True)

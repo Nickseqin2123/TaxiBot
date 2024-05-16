@@ -1,13 +1,13 @@
 import redis
 
 
-def redis_get(user_id):
+def redis_get(key):
     with redis.Redis(host='127.0.0.1', port=6379) as redis_client:
-        num = redis_client.get(user_id)
+        num = redis_client.get(key)
 
     return num
 
 
-def redis_set(user_id, telephone_number):
+def redis_set(key, value):
     with redis.Redis(host='127.0.0.1', port=6379) as redis_client:
-        redis_client.set(user_id, telephone_number)
+        redis_client.set(key, value)

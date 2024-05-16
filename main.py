@@ -27,6 +27,7 @@ class GetPhone(StatesGroup):
 @dp.message(CommandStart())
 async def start_menu(message: Message, state: FSMContext):
     db_gt = database.get_user_phone(message.from_user.id)
+    db_gt_tar = database.get_tar()[0]
     
     if bool(db_gt):
         await message.answer(
@@ -48,6 +49,8 @@ reply_markup=await menu()
 Водитель мог с тобой связаться. Нажми на кнопку "📱 Отправить", чтобы поделиться
 своим номером телефона''', reply_markup=await contact_keyb()
         )
+    redis_set('tarif_day', db_gt_tar['tarif_day'])
+    redis_set('tarif_night', db_gt_tar['tarif_night'])
     
 
 

@@ -79,4 +79,3 @@ class NextReq(Database):
 
 
 database = NextReq()
-database.del_orders(1124518724)

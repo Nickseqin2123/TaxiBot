@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.filters.command import Command
 from aiogram.types import Message
-from SqlReq.SecondRequests import database
+from SqlReq.RedReq import redis_get
 
 
 router = Router(name=__name__)
@@ -9,9 +9,9 @@ router = Router(name=__name__)
 
 @router.message(Command('tarifs'))
 async def help_user(message: Message):
-    price = database.get_tar()[0]
+    tarif_day, tarif_night = redis_get('tarif_day'), redis_get('tarif_night')
 
     await message.answer(
-        text=f"""Текущий тариф в днем: {price['tarif_day']} рублей на 1 км
-Текущий тариф ночью: {price['tarif_night']} рублей на 1 км"""
+        text=f"""Текущий тариф в днем: {int(tarif_day)} рублей на 1 км
+Текущий тариф ночью: {int(tarif_night)} рублей на 1 км"""
     )
