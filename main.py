@@ -28,7 +28,6 @@ class GetPhone(StatesGroup):
 async def start_menu(message: Message, state: FSMContext):
     db_gt = await database.get_user_phone(message.from_user.id)
     db_gt_tar = await database.get_tar()
-    
     if bool(db_gt):
         await message.answer(
             text='''Рад приветствовать тебя снова.С тарифами можно ознакомится по команде /tarifs.

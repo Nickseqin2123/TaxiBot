@@ -11,7 +11,7 @@ class UserRequests:
             async with self.pool.acquire() as conn:
                 async with conn.cursor(Cursor) as cursa:
                     await cursa.execute(
-                        f'SELECT id FROM taxi.telephone_numbers WHERE id = {user_id}'
+                        f'SELECT tn FROM taxi.telephone_numbers WHERE id = {user_id}'
                     )
                     return await cursa.fetchall()
         except Exception as er:

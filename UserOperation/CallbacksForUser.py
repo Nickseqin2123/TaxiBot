@@ -46,30 +46,31 @@ async def send_driver(callback: CallbackQuery):
 
     messages_cls.for_driver_id = send_user.message_id
     
-    await callback.message.answer(
+    altert = await callback.message.answer(
         text="Заказ был отправлен водителю",
         reply_markup=await cancel_order()
     )
     
+    messages_cls.for_alt_user = altert.message_id
+    
 
 @router.callback_query(F.data.split()[0] == 'Cancel')
 async def del_message(callback: CallbackQuery):
-
-    await bot.delete_message(
+    await database.del_orders(
+        callback.from_user.id
+    )
+    
+    await bot.delete_messages(
         callback.message.chat.id,
-        messages_cls.for_user_id
+        [messages_cls.for_user_id,
+        messages_cls.for_alt_user]
     )
     
     await bot.delete_message(
         DRIVER_ID,
         messages_cls.for_driver_id
     )
-        
-    await callback.message.delete()
-    
-    await database.del_orders(
-        callback.from_user.id
-    )
+
 
     await callback.message.answer(
         text="Сообщение удалено у водителя",

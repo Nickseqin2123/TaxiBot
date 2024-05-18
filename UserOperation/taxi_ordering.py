@@ -24,6 +24,7 @@ class GetInfo(StatesGroup):
 class MessagesId:
     for_driver_id: int = field(init=False)
     for_user_id: int = field(init=False)
+    for_alt_user: int = field(init=False)
 
 
 messages_cls = MessagesId()
@@ -31,16 +32,13 @@ messages_cls = MessagesId()
 
 @router.message(F.text == 'Заказать такси')
 async def taxi_get(message: Message, state: FSMContext):
-    await message.answer(
-        text='тут'
-    )
     if bool(await database.get_user_phone(message.from_user.id)) and \
     bool(await database.get_orders(message.from_user.id)) is False:
         await state.set_state(GetInfo.locationA)
         
         await message.answer(
             text="""Итак, приступим к заказу, для начала укажи свое местоположение отправив 
-    свою геолокацию по кнопке '📍 Отправить'""",
+свою геолокацию по кнопке '📍 Отправить'""",
     reply_markup=await geo_keyb()
         )
     
@@ -96,5 +94,4 @@ async def summary(message: Message, data: dict, state: FSMContext):
     for_user = await message.answer(
         text=f"{resp}", reply_markup=await get_inline_keyb()
     )
-    
     messages_cls.for_user_id = for_user.message_id
