@@ -2,7 +2,7 @@ from aiogram import Router, Bot, F
 from aiogram.types import CallbackQuery
 from driver import DRIVER_ID
 from Keyboards.keyboards import cancel_order_in_driver, menu
-from SqlReq.SecondRequests import database
+from AsyncSQLReq.UserSql import database
 
 
 bot = Bot(token='7051292123:AAF5SrWp00cLQXyh4MhhXDrv-iZGk1r-jXE')
@@ -29,6 +29,6 @@ async def not_go(callback: CallbackQuery):
         reply_markup=await menu()
     )
     
-    database.del_orders(
+    await database.del_orders(
         callback.from_user.id
     )

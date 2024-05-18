@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.filters.command import Command
 from aiogram.types import Message
-from SqlReq.RedReq import redis_get
+from RedisReq.RedReq import redis_get
 
 
 router = Router(name=__name__)

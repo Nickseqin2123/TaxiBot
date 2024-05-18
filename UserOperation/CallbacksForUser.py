@@ -1,7 +1,7 @@
 from aiogram import Router, F, Bot
 from aiogram.types import CallbackQuery
-from SqlReq.RedReq import redis_get
-from SqlReq.SecondRequests import database
+from RedisReq.RedReq import redis_get
+from AsyncSQLReq.UserSql import database
 from driver import DRIVER_ID
 from Keyboards.keyboards import for_driver, cancel_order, menu
 from UserOperation.taxi_ordering import messages_cls
@@ -32,7 +32,7 @@ async def send_driver(callback: CallbackQuery):
 
 @{user} ждет вас по адресу: {mess[1]}"""
 
-    database.regist_order(
+    await database.regist_order(
         callback.from_user.id,
         driver_message
     )
@@ -67,7 +67,7 @@ async def del_message(callback: CallbackQuery):
         
     await callback.message.delete()
     
-    database.del_orders(
+    await database.del_orders(
         callback.from_user.id
     )
 

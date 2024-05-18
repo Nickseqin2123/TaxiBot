@@ -1,6 +1,6 @@
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
-from SqlReq.RedReq import redis_get
+from RedisReq.RedReq import redis_get
 from datetime import datetime
 
 

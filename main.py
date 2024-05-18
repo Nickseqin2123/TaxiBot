@@ -8,9 +8,9 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 from Keyboards.keyboards import contact_keyb, menu
+from RedisReq.RedReq import redis_set
 from main_router import router as main_router
-from SqlReq.SecondRequests import database
-from SqlReq.RedReq import redis_set
+from AsyncSQLReq.UserSql import database
 
 
 dp = Dispatcher()
@@ -26,8 +26,8 @@ class GetPhone(StatesGroup):
 
 @dp.message(CommandStart())
 async def start_menu(message: Message, state: FSMContext):
-    db_gt = database.get_user_phone(message.from_user.id)
-    db_gt_tar = database.get_tar()[0]
+    db_gt = await database.get_user_phone(message.from_user.id)
+    db_gt_tar = await database.get_tar()
     
     if bool(db_gt):
         await message.answer(
@@ -49,8 +49,8 @@ reply_markup=await menu()
 Водитель мог с тобой связаться. Нажми на кнопку "📱 Отправить", чтобы поделиться
 своим номером телефона''', reply_markup=await contact_keyb()
         )
-    redis_set('tarif_day', db_gt_tar['tarif_day'])
-    redis_set('tarif_night', db_gt_tar['tarif_night'])
+    redis_set('tarif_day', db_gt_tar[0]['tarif_day'])
+    redis_set('tarif_night', db_gt_tar[0]['tarif_night'])
     
 
 
@@ -65,7 +65,7 @@ async def get_num(message: Message, state: FSMContext):
 
 
 async def summary(message: Message, data: dict):
-    database.set_user_phone(
+    await database.set_user_phone(
         message.from_user.id,
         data['number']
     )
@@ -83,6 +83,7 @@ reply_markup=await menu()
 
 
 async def main():
+    await database.add_pool()
     logging.basicConfig(level=logging.INFO)
     await dp.start_polling(bot)
 

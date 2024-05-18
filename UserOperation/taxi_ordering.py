@@ -6,7 +6,7 @@ from Keyboards.keyboards import (menu,
                                  get_inline_keyb,)
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
-from SqlReq.SecondRequests import database
+from AsyncSQLReq.UserSql import database
 from UserOperation.get_km import ge
 from dataclasses import dataclass, field
 
@@ -29,17 +29,20 @@ class MessagesId:
 messages_cls = MessagesId()
 
 
-@router.message(F.text == 'Заказать такси', F.func(lambda x:
-    bool(database.get_user_phone(x.from_user.id))
-    and bool(database.get_orders(x.from_user.id)) is False))
+@router.message(F.text == 'Заказать такси')
 async def taxi_get(message: Message, state: FSMContext):
-    await state.set_state(GetInfo.locationA)
-    
     await message.answer(
-        text="""Итак, приступим к заказу, для начала укажи свое местоположение отправив 
-свою геолокацию по кнопке '📍 Отправить'""",
-reply_markup=await geo_keyb()
+        text='тут'
     )
+    if bool(await database.get_user_phone(message.from_user.id)) and \
+    bool(await database.get_orders(message.from_user.id)) is False:
+        await state.set_state(GetInfo.locationA)
+        
+        await message.answer(
+            text="""Итак, приступим к заказу, для начала укажи свое местоположение отправив 
+    свою геолокацию по кнопке '📍 Отправить'""",
+    reply_markup=await geo_keyb()
+        )
     
 
 @router.message(F.text == "Главное меню")
